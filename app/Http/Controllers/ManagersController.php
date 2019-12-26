@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Manager;
 use Illuminate\Http\Request;
+use App\Http\Requests\ManagerRequest;
 
 class ManagersController extends Controller
 {
@@ -17,7 +18,7 @@ class ManagersController extends Controller
         if ($term) {
             return Manager::search($term);
         } else {
-            return Manager::all();
+            return Manager::paginate(3);
         }
     }
 
@@ -37,7 +38,7 @@ class ManagersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ManagerRequest $request)
     {
         return Manager::create($request->all());
     }
@@ -48,9 +49,10 @@ class ManagersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($managerId)
     {
-        //
+        $manager = Manager::findOrFail($managerId);
+        return $manager;
     }
 
     /**

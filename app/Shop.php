@@ -15,7 +15,7 @@ class Shop extends Model
         return $this->belongsTo(Manager::class,'manager_id');
     }
 
-    public function comment() 
+    public function comments() 
     {
         return $this->hasMany(Comment::class);
     }

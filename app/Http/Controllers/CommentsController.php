@@ -3,26 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ShopRequest;
-use App\Shop;
 
-
-class ShopController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $term = request()->input('term');
-        if ($term) {
-            return Shop::search($term);
-        } else {
-            return Shop::all();
-        }
-
+        return Comment::with('shops')->get();
     }
 
     /**
@@ -41,9 +32,12 @@ class ShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ShopRequest $request)
-    {
-        return Shop::create($request->all());
+    public function store(CommentRequest $request, $shopId)
+    {   
+        $shop = Shop::findOrFail($shopId);
+        $comment = $shop->comments()->create(['content' => $request->content]);
+        $comment = $user_id = Auth::user()->id;
+        $comment->save();
     }
 
     /**
@@ -52,10 +46,11 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($shopId) {
-        $shop = Shop::with('comments')->findOrFail($shopId);
-        return $shop;
+    public function show($id)
+    {
+        //
     }
+
     /**
      * Show the form for editing the specified resource.
      *

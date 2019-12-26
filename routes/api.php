@@ -22,4 +22,5 @@ Route::post('/register', 'Auth\RegisterController@register');
 
 Route::resource('/shops', 'ShopController');
 Route::resource('/managers', 'ManagersController');
+Route::post('shops/{shopId}/comments', 'CommentsController@store');
 Route::get('/test', 'TestController@index');

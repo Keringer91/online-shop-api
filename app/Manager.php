@@ -19,6 +19,6 @@ class Manager extends Model
         return Manager::where('first_name', 'LIKE', "%{$term}%")
                         ->orWhere('last_name', 'LIKE', "%{$term}%")
                         ->orderBy('last_name')
-                        ->get();
+                        ->paginate(3);
     }
 }
