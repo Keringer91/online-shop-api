@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 //use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
-
+use App\Manager;
 class RegisterController extends Controller
 {
     /*
@@ -77,14 +77,17 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request) {
         //dd($request);
-        $user= User::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+        // $user= User::create([
+        //     'first_name' => $request->input('first_name'),
+        //     'last_name' => $request->input('last_name'),
+        //     'email' => $request->input('email'),
+        // //     'password' => bcrypt($request->input('password')),
             
-        ]);
-        return redirect('/api/test');
+        // // ]);
+        // return redirect('/api/test');
+        $manager = Manager::create($request->except('password', 'password_confirm'));
+        User::create(array_merge($request->except('image_url', 'password', 'password_confirm'), ['manager_id' => $manager->id, 'password' => bcrypt($request->password)]));
+        return response()->json(['message' => 'Register successfull'], 200);
     }
     
 }
