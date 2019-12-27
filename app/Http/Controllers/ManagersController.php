@@ -14,11 +14,11 @@ class ManagersController extends Controller
      */
     public function index(Request $request)
     {
-        $term = request()->input('term');
+        $term = request()->query('term');
         if ($term) {
             return Manager::search($term);
         } else {
-            return Manager::paginate(3);
+            return Manager::all();
         }
     }
 

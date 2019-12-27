@@ -9,9 +9,9 @@ class Manager extends Model
 {
     protected $guarded = ['id'];
 
-    public function manager()
+    public function shop()
     {
-        return $this->hasOne(Shop::class,'shop_id');
+        return $this->hasOne(Shop::class,'manager_id');
     }
 
     public static function search($term)
@@ -19,6 +19,6 @@ class Manager extends Model
         return Manager::where('first_name', 'LIKE', "%{$term}%")
                         ->orWhere('last_name', 'LIKE', "%{$term}%")
                         ->orderBy('last_name')
-                        ->paginate(3);
+                        ->get();
     }
 }

@@ -16,11 +16,11 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
-        $term = request()->input('term');
+        $term = request()->query('term');
         if ($term) {
             return Shop::search($term);
         } else {
-            return Shop::all();
+            return Shop::with('manager')->get();
         }
 
     }
