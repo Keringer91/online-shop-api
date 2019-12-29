@@ -25,7 +25,7 @@ class Shop extends Model
         return Shop::where('name','LIKE', "%{$term}%")
                         ->with('manager')
                         ->orderBy('name')
-                        ->get();
+                        ->paginate(10);
     }
 }
 
